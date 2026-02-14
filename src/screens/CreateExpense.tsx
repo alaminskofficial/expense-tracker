@@ -30,7 +30,7 @@ const CreateExpense: React.FC = () => {
     }
 
     const newExpense: Expense = {
-      id: uuidv4(),
+      id: `${Date.now()}-${Math.random()}`,
       title,
       amount: Number(amount),
       category,
@@ -56,7 +56,7 @@ const CreateExpense: React.FC = () => {
       {/* Title */}
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Title</Text>
       <TextInput
-        placeholder="Enter title"
+        placeholder="What wast it for?"
         value={title}
         onChangeText={setTitle}
         style={tailwind`border border-gray-300 rounded-xl px-4 py-3 mb-4`}

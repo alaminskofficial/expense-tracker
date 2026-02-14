@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import tailwind from "twrnc";
-import { v4 as uuidv4 } from "uuid";
 import { Expense } from "../types/expense";
 import { incomeCategories } from "../utils/categoryHelper";
 
@@ -36,7 +35,7 @@ const CreateIncome: React.FC = () => {
     }
 
     const newIncome: Expense = {
-      id: uuidv4(),
+      id: `${Date.now()}-${Math.random()}`,
       title,
       amount: Number(amount),
       category,
