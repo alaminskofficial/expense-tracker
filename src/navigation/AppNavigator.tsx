@@ -2,7 +2,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import Insights from "../screens/Insights";
-import Create from "../screens/Create";
+import CreateExpense from "../screens/CreateExpense";
+import CreateIncome from "../screens/CreateIncome";
 import Profile from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
@@ -12,7 +13,8 @@ function BottomTabs() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Create" component={Create} />
+      <Tab.Screen name="Expense" component={CreateExpense} />
+      <Tab.Screen name="Income" component={CreateIncome} />
       <Tab.Screen name="Insights" component={Insights} />
       
     </Tab.Navigator>
