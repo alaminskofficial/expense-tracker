@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert,Platform } from "react-native";
 import tailwind from "twrnc";
 import { Expense } from "../types/expense";
-import { v4 as uuidv4 } from "uuid";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { expenseCategories } from "../utils/categoryHelper";
 
