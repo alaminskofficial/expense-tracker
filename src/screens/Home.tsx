@@ -46,15 +46,43 @@ const Home: React.FC<Props> = ({ navigation }) => {
       amount: 5000,
       date: "2026-02-10",
     },
+    {
+        id: "5",
+        title: "Electricity Bill",
+        category: "Utilities",
+        amount: -300,
+        date: "2026-02-12",
+    },
+    {
+        id: "6",
+        title: "Dinner Out",
+        category: "Food",
+        amount: -150,
+        date: "2026-02-11",
+    },
+    {
+        id: "7",
+        title: "Gym Membership",
+        category: "Health",
+        amount: -200,
+        date: "2026-02-09",
+    },
+    {
+        id: "8",
+        title: "Freelance Project",
+        category: "Salary",
+        amount: 1200,
+        date: "2026-02-08",
+    }
   ];
   
-  const totalExpense = Math.abs(expenses.reduce((total, expense) => total + (expense.amount < 0 ? expense.amount : 0), 0));
+  const totalExpense = Math.abs(expenses.reduce((total, expense) => total + (expense.amount < 0 ? expense.amount : 0), 0)).toFixed(2);
   
   return (
-    <View>
+    <View style={tailwind`flex-1`}>
       <View style={tailwind`px-5 pt-5 pb-3`}>
         <Text style={tailwind`text-4xl font-bold text-black`}>
-          Hello Guys 👋{" "}
+          Hello 👋{" "}
         </Text>
         <Text style={tailwind`text-base text-gray-500 mt-1`}>
           Start Tracking Your Expense Easily
