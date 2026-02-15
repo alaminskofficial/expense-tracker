@@ -9,11 +9,19 @@ const screenWidth = Dimensions.get("window").width;
 
 const Insights: React.FC = () => {
   const timeFilter = useExpenseStore((s) => s.timeFilter);
-  const getCategoryData = useExpenseStore((s) => s.getCategoryWiseExpense);
+  const expenses = useExpenseStore((s) => s.expenses); // get raw expenses
 
-  const categoryData = getCategoryData();
-  const getSummary = useExpenseStore((s) => s.getIncomeExpenseSummary);
-  const summary = getSummary();
+  // Memoize category data calculation
+  const categoryData = React.useMemo(() => {
+    const getCategoryData = useExpenseStore.getState().getCategoryWiseExpense;
+    return getCategoryData();
+  }, [expenses, timeFilter]); // recalc only if expenses or filter change
+
+  // Memoize summary
+  const summary = React.useMemo(() => {
+    const getSummary = useExpenseStore.getState().getIncomeExpenseSummary;
+    return getSummary();
+  }, [expenses, timeFilter]);
 
   // Split income and expense
   // Split data
@@ -97,7 +105,6 @@ const Insights: React.FC = () => {
             accessor="population"
             backgroundColor="transparent"
             paddingLeft="10"
-            
           />
         </View>
       )}

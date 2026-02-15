@@ -6,63 +6,63 @@ export type CategoryConfig = {
 };
 
 export const categoryConfig: Record<string, CategoryConfig> = {
-  // Expense Categories
+  // Expense Categories (Unique colors)
   food: {
     icon: "🍔",
-    bg: "#FEF3C7",
-    text: "#B45309",
+    bg: "#FEF3C7",   // light yellow
+    text: "#B45309", // orange brown
     type: "expense",
   },
   transport: {
     icon: "🚗",
-    bg: "#DBEAFE",
-    text: "#1D4ED8",
+    bg: "#EFF6FF",   // light blue
+    text: "#1D4ED8", // blue
     type: "expense",
   },
   shopping: {
     icon: "🛍️",
-    bg: "#FCE7F3",
-    text: "#BE185D",
+    bg: "#FDF2F8",   // light pink
+    text: "#BE185D", // deep pink
     type: "expense",
   },
   medical: {
     icon: "💊",
-    bg: "#FEE2E2",
-    text: "#B91C1C",
+    bg: "#FEF2F2",   // soft red
+    text: "#B91C1C", // dark red
     type: "expense",
   },
   fuel: {
     icon: "⛽",
-    bg: "#E0F2FE",
-    text: "#0369A1",
+    bg: "#E0F7FA",   // cyan
+    text: "#006064", // teal
     type: "expense",
   },
   emi: {
     icon: "🏦",
-    bg: "#EDE9FE",
-    text: "#6D28D9",
+    bg: "#F3E8FF",   // lavender
+    text: "#6B21A8", // purple
     type: "expense",
   },
   rent: {
     icon: "🏠",
-    bg: "#FFF7ED",
-    text: "#C2410C",
+    bg: "#FFF1F3",   // soft rose
+    text: "#9D174D", // berry
     type: "expense",
   },
   utilities: {
     icon: "💡",
-    bg: "#FFF7ED",
-    text: "#C2410C",
+    bg: "#F0F9FF",   // pale blue
+    text: "#0284C7", // blue
     type: "expense",
   },
   entertainment: {
     icon: "🎬",
-    bg: "#F0F9FF",
-    text: "#075985",
+    bg: "#EFFAFB",   // pale cyan
+    text: "#0E7490", // cyan-dark
     type: "expense",
   },
 
-  // Income Categories
+  // Income Categories (keep same)
   salary: {
     icon: "💰",
     bg: "#DCFCE7",
@@ -90,6 +90,7 @@ const defaultCategory: CategoryConfig = {
   text: "#374151",
   type: "expense",
 };
+
 
 export const getCategoryConfig = (category: string): CategoryConfig => {
   return categoryConfig[category.toLowerCase()] || defaultCategory;
