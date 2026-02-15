@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet, FlatList , TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Button,
+} from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/types";
 import tailwind from "twrnc";
@@ -17,7 +24,8 @@ type Props = {
 };
 
 const Home: React.FC<Props> = ({ navigation }) => {
-  const expenses = useExpenseStore((state) => state.expenses);
+  const { timeFilter, setTimeFilter } = useExpenseStore();
+  console.log("Current Time Filter:", timeFilter);
   const getCategoryExpenses = useExpenseStore(
     (state) => state.getCategoryWiseExpense
   );
@@ -37,6 +45,9 @@ const Home: React.FC<Props> = ({ navigation }) => {
         <Text style={tailwind`text-base text-gray-500 px-15`}>
           Start Tracking Your Expense Easily
         </Text>
+        <Button title="Monthly" onPress={() => setTimeFilter("monthly")} />
+
+        <Button title="Yearly" onPress={() => setTimeFilter("yearly")} />
       </View>
 
       <View style={tailwind`px-4`}>

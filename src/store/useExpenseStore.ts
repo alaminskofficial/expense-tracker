@@ -3,18 +3,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Expense } from "../types/expense";
 
+type TimeFilter = "monthly" | "yearly";
+
 type ExpenseState = {
   expenses: Expense[];
+  timeFilter: TimeFilter;
 
   addExpense: (expense: Expense) => void;
   deleteExpense: (id: string) => void;
   clearAll: () => void;
+   // Global Filter
+   setTimeFilter: (filter: TimeFilter) => void;
+   // Internal helper
+   getFilteredExpenses: () => Expense[];
 
   // 🔹 Selectors
-  getDailyTotal: (date: Date) => number;
-  getWeeklyTotal: () => number;
-  getMonthlyTotal: () => number;
-  getYearlyTotal: () => number;
+  getTotal: () => number;
   getIncomeExpenseSummary: () => {
     income: number;
     expense: number;
@@ -31,6 +35,7 @@ export const useExpenseStore = create<ExpenseState>()(
   persist(
     (set, get) => ({
       expenses: [],
+      timeFilter: "monthly", // default
 
       addExpense: (expense) =>
         set((state) => ({
@@ -43,53 +48,46 @@ export const useExpenseStore = create<ExpenseState>()(
         })),
 
       clearAll: () => set({ expenses: [] }),
+      setTimeFilter: (filter) => set({ timeFilter: filter }),
+
+      // =========================
+      // Filter Logic (GLOBAL)
+      // =========================
+      getTotal: () => {
+        return get()
+          .getFilteredExpenses()
+          .reduce((sum, e) => sum + e.amount, 0);
+      },
+      getFilteredExpenses: () => {
+        const { expenses, timeFilter } = get();
+        const now = new Date();
+
+        if (timeFilter === "monthly") {
+          const month = now.getMonth();
+          const year = now.getFullYear();
+
+          return expenses.filter((e) => {
+            const d = new Date(e.date);
+            return d.getMonth() === month && d.getFullYear() === year;
+          });
+        }
+
+        if (timeFilter === "yearly") {
+          const year = now.getFullYear();
+          return expenses.filter(
+            (e) => new Date(e.date).getFullYear() === year
+          );
+        }
+
+        return expenses;
+      },
 
       // =========================
       // Selectors
       // =========================
 
-      getDailyTotal: (date) => {
-        const selectedDate = date.toDateString();
-        return get()
-          .expenses.filter(
-            (e) => new Date(e.date).toDateString() === selectedDate
-          )
-          .reduce((sum, e) => sum + e.amount, 0);
-      },
-
-      getWeeklyTotal: () => {
-        const now = new Date();
-        const firstDayOfWeek = new Date(now);
-        firstDayOfWeek.setDate(now.getDate() - now.getDay());
-
-        return get()
-          .expenses.filter((e) => new Date(e.date) >= firstDayOfWeek)
-          .reduce((sum, e) => sum + e.amount, 0);
-      },
-
-      getMonthlyTotal: () => {
-        const now = new Date();
-        const month = now.getMonth();
-        const year = now.getFullYear();
-
-        return get()
-          .expenses.filter((e) => {
-            const d = new Date(e.date);
-            return d.getMonth() === month && d.getFullYear() === year;
-          })
-          .reduce((sum, e) => sum + e.amount, 0);
-      },
-
-      getYearlyTotal: () => {
-        const year = new Date().getFullYear();
-
-        return get()
-          .expenses.filter((e) => new Date(e.date).getFullYear() === year)
-          .reduce((sum, e) => sum + e.amount, 0);
-      },
-
       getIncomeExpenseSummary: () => {
-        const expenses = get().expenses;
+        const expenses = get().getFilteredExpenses();
 
         const income = expenses
           .filter((e) => e.amount > 0)
@@ -106,7 +104,7 @@ export const useExpenseStore = create<ExpenseState>()(
         };
       },
       getCategoryWiseExpense: () => {
-        const expenses = get().expenses;
+        const expenses = get().getFilteredExpenses();
       
         const categoryMap: Record<string, number> = {};
       
