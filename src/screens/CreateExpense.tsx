@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Alert,Platform } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Platform,
+} from "react-native";
 import tailwind from "twrnc";
 import { Expense } from "../types/expense";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { expenseCategories } from "../utils/categoryHelper";
 import { useExpenseStore } from "../store/useExpenseStore";
-
-
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/types";
 
 const categories = expenseCategories;
 
@@ -17,7 +25,10 @@ const CreateExpense: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const addExpense = useExpenseStore((state) => state.addExpense);
-  
+  type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+  const navigation = useNavigation<NavigationProp>();
+
   const onChangeDate = (_: any, selectedDate?: Date) => {
     setShowPicker(false);
     if (selectedDate) {
@@ -34,14 +45,16 @@ const CreateExpense: React.FC = () => {
     const newExpense: Expense = {
       id: `${Date.now()}-${Math.random()}`,
       title,
-      amount: Number(- amount),
+      amount: Number(-amount),
       category,
-      date : date.toISOString(),
+      date: date.toISOString(),
     };
 
-    console.log("New Expense:", newExpense);
+    //console.log("New Expense:", newExpense);
     addExpense(newExpense);
-    Alert.alert("Success", "Expense Added");
+    // Navigate
+    navigation.navigate("BottomTabs", { screen: "Home" });
+    //Alert.alert("Success", "Expense Added");
 
     // Reset form
     setTitle("");
@@ -51,9 +64,7 @@ const CreateExpense: React.FC = () => {
 
   return (
     <View style={tailwind`flex-1 bg-white px-5 pt-6`}>
-      <Text style={tailwind`text-2xl font-bold mb-6`}>
-        Add Expense
-      </Text>
+      <Text style={tailwind`text-2xl font-bold mb-6`}>Add Expense</Text>
 
       {/* Title */}
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Title</Text>
@@ -85,9 +96,7 @@ const CreateExpense: React.FC = () => {
               onPress={() => setCategory(cat)}
               style={tailwind.style(
                 "px-4 py-2 rounded-full mr-2 mb-2 border",
-                isSelected
-                  ? "bg-black border-black"
-                  : "border-gray-300"
+                isSelected ? "bg-black border-black" : "border-gray-300"
               )}
             >
               <Text
@@ -109,9 +118,7 @@ const CreateExpense: React.FC = () => {
         onPress={() => setShowPicker(true)}
         style={tailwind`border border-gray-300 rounded-xl px-4 py-3 mb-4`}
       >
-        <Text style={tailwind`text-base`}>
-          {date.toDateString()}
-        </Text>
+        <Text style={tailwind`text-base`}>{date.toDateString()}</Text>
       </TouchableOpacity>
 
       {/* Date Picker */}

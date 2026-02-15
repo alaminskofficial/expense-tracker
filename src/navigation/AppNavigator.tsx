@@ -19,7 +19,7 @@ function BottomTabs() {
         tabBarActiveTintColor: "#16a34a",   // green
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          height: 80,
+          height: 90,
           paddingBottom: 16,
         },
         tabBarIcon: ({ color, size, focused }) => {

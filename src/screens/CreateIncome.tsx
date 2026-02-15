@@ -12,6 +12,9 @@ import tailwind from "twrnc";
 import { Expense } from "../types/expense";
 import { incomeCategories } from "../utils/categoryHelper";
 import { useExpenseStore } from "../store/useExpenseStore";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/types";
+import { useNavigation } from "@react-navigation/native";
 
 const CreateIncome: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -23,6 +26,9 @@ const CreateIncome: React.FC = () => {
   const [showPicker, setShowPicker] = useState(false);
 
   const addIncome = useExpenseStore((state) => state.addExpense);
+  type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+  const navigation = useNavigation<NavigationProp>();
 
   const handleDateChange = (_: any, selectedDate?: Date) => {
     setShowPicker(false);
@@ -45,9 +51,10 @@ const CreateIncome: React.FC = () => {
       date: date.toISOString(), // store ISO format
     };
 
-    console.log("New Income:", newIncome);
+    //console.log("New Income:", newIncome);
     addIncome(newIncome);
-    Alert.alert("Success", "Income Added");
+    navigation.navigate("BottomTabs", { screen: "Home" });
+    //Alert.alert("Success", "Income Added");
 
     setTitle("");
     setAmount("");
@@ -57,9 +64,7 @@ const CreateIncome: React.FC = () => {
 
   return (
     <View style={tailwind`flex-1 bg-white px-5 pt-6`}>
-      <Text style={tailwind`text-2xl font-bold mb-6`}>
-        Add Income
-      </Text>
+      <Text style={tailwind`text-2xl font-bold mb-6`}>Add Income</Text>
 
       {/* Title */}
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Source</Text>
@@ -91,9 +96,7 @@ const CreateIncome: React.FC = () => {
               onPress={() => setCategory(cat)}
               style={tailwind.style(
                 "px-4 py-2 rounded-full mr-2 mb-2 border",
-                isSelected
-                  ? "bg-green-600 border-green-600"
-                  : "border-gray-300"
+                isSelected ? "bg-green-600 border-green-600" : "border-gray-300"
               )}
             >
               <Text
@@ -116,9 +119,7 @@ const CreateIncome: React.FC = () => {
         onPress={() => setShowPicker(true)}
         style={tailwind`border border-gray-300 rounded-xl px-4 py-3 mb-4`}
       >
-        <Text style={tailwind`text-base`}>
-          {date.toDateString()}
-        </Text>
+        <Text style={tailwind`text-base`}>{date.toDateString()}</Text>
       </TouchableOpacity>
 
       {showPicker && (
@@ -136,9 +137,7 @@ const CreateIncome: React.FC = () => {
         onPress={handleAddIncome}
         style={tailwind`bg-green-600 py-4 rounded-xl items-center`}
       >
-        <Text style={tailwind`text-white font-bold text-base`}>
-          Add Income
-        </Text>
+        <Text style={tailwind`text-white font-bold text-base`}>Add Income</Text>
       </TouchableOpacity>
     </View>
   );
