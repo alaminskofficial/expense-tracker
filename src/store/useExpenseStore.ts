@@ -10,12 +10,13 @@ type ExpenseState = {
   timeFilter: TimeFilter;
 
   addExpense: (expense: Expense) => void;
+  updateExpense: (updatedExpense: Expense) => void;
   deleteExpense: (id: string) => void;
   clearAll: () => void;
-   // Global Filter
-   setTimeFilter: (filter: TimeFilter) => void;
-   // Internal helper
-   getFilteredExpenses: () => Expense[];
+  // Global Filter
+  setTimeFilter: (filter: TimeFilter) => void;
+  // Internal helper
+  getFilteredExpenses: () => Expense[];
 
   // 🔹 Selectors
   getTotal: () => number;
@@ -28,7 +29,6 @@ type ExpenseState = {
     category: string;
     total: number;
   }[];
-  
 };
 
 export const useExpenseStore = create<ExpenseState>()(
@@ -45,6 +45,12 @@ export const useExpenseStore = create<ExpenseState>()(
       deleteExpense: (id) =>
         set((state) => ({
           expenses: state.expenses.filter((e) => e.id !== id),
+        })),
+      updateExpense: (updatedExpense) =>
+        set((state) => ({
+          expenses: state.expenses.map((e) =>
+            e.id === updatedExpense.id ? updatedExpense : e
+          ),
         })),
 
       clearAll: () => set({ expenses: [] }),
@@ -105,27 +111,26 @@ export const useExpenseStore = create<ExpenseState>()(
       },
       getCategoryWiseExpense: () => {
         const expenses = get().getFilteredExpenses();
-      
+
         const categoryMap: Record<string, number> = {};
-      
+
         expenses.forEach((e) => {
           const category = e.category;
-      
+
           if (!categoryMap[category]) {
             categoryMap[category] = 0;
           }
-      
+
           // Add amount directly (+ for income, - for expense)
           categoryMap[category] += e.amount;
         });
-      
+
         // Convert to array
         return Object.keys(categoryMap).map((category) => ({
           category,
           total: categoryMap[category], // can be + or -
         }));
       },
-      
     }),
     {
       name: "expense-storage",

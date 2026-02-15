@@ -7,9 +7,11 @@ import Insights from "../screens/Insights";
 import CreateExpense from "../screens/CreateExpense";
 import CreateIncome from "../screens/CreateIncome";
 import Transactions from "../screens/Transactions";
+import EditTransaction from "../screens/EditTransaction";
+import { RootStackParamList } from "./types";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function BottomTabs() {
   return (
@@ -59,6 +61,7 @@ export default function AppNavigator() {
         options={{ headerShown: true, title: "Expense Tracker" }}
       />
       <Stack.Screen name="Transactions" component={Transactions} />
+      <Stack.Screen name="EditTransaction" component={EditTransaction} />
     </Stack.Navigator>
   );
 }

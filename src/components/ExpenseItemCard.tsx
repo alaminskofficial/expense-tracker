@@ -1,19 +1,47 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
 import tailwind from "twrnc";
 import { Expense } from "../types/expense";
-import { getCategoryConfig} from "../utils/categoryHelper";
+import { getCategoryConfig } from "../utils/categoryHelper";
 
 type Props = {
   item: Expense;
+  onDelete?: (id: string) => void;
+  onPress?: () => void;
 };
 
-const ExpenseItemCard: React.FC<Props> = ({ item }) => {
+const ExpenseItemCard: React.FC<Props> = ({
+  item,
+  onDelete,
+  onPress,
+}) => {
   const isExpense = item.amount < 0;
   const category = getCategoryConfig(item.category);
 
+  const handleLongPress = () => {
+    if (!onDelete) return;
+
+    Alert.alert(
+      "Delete Transaction",
+      "Are you sure you want to delete?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => onDelete(item.id),
+        },
+      ]
+    );
+  };
+
   return (
-    <View style={tailwind`mx-5 my-1`}>
+    <TouchableOpacity
+      onPress={onPress}
+      onLongPress={handleLongPress}
+      activeOpacity={0.9}
+      style={tailwind`mx-5 my-1`}
+    >
       <View style={tailwind`bg-white p-4 rounded-2xl shadow flex-row justify-between`}>
         {/* Left */}
         <View style={tailwind`flex-row flex-1 items-center`}>
@@ -27,7 +55,9 @@ const ExpenseItemCard: React.FC<Props> = ({ item }) => {
           </View>
 
           <View>
-            <Text style={tailwind`text-base font-bold`}>{item.title}</Text>
+            <Text style={tailwind`text-base font-bold`}>
+              {item.title}
+            </Text>
 
             <View
               style={[
@@ -63,7 +93,7 @@ const ExpenseItemCard: React.FC<Props> = ({ item }) => {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

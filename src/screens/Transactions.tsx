@@ -4,8 +4,21 @@ import tailwind from "twrnc";
 import ExpenseItemCard from "../components/ExpenseItemCard";
 import EmptyList from "../components/EmptyList";
 import { useExpenseStore } from "../store/useExpenseStore";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/types";
+import { useNavigation } from "@react-navigation/native";
 
 const Transactions: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const deleteExpense = useExpenseStore((state) => state.deleteExpense);
+
+  const handleDelete = (id: string) => {
+    deleteExpense(id);
+    navigation.navigate("BottomTabs", { screen: "Home" });
+  };
+
   const filterExpenses = useExpenseStore((state) => state.getFilteredExpenses);
   const expenses = filterExpenses();
   const getSummary = useExpenseStore((state) => state.getIncomeExpenseSummary);
@@ -50,7 +63,15 @@ const Transactions: React.FC = () => {
       {/* Transaction List */}
       <FlatList
         data={sortedExpenses}
-        renderItem={({ item }) => <ExpenseItemCard item={item} />}
+        renderItem={({ item }) => (
+          <ExpenseItemCard
+            item={item}
+            onDelete={handleDelete}
+            onPress={() =>
+              navigation.navigate("EditTransaction", { expense: item })
+            }
+          />
+        )}
         keyExtractor={(item) => item.id}
         contentContainerStyle={tailwind`pb-20 pt-2`}
         ListEmptyComponent={<EmptyList />}
