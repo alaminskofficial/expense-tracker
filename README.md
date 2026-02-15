@@ -31,7 +31,7 @@ A modern and scalable mobile Expense Tracker built using **React Native (Expo)**
 * Reusable UI components
 * Type-safe models for scalability
 
-## Upcoming Enhancements
+## More  Features
 
 * Expense filtering by date range
 * Category-wise analytics (charts)
