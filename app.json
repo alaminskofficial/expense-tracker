@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "expense-tracker",
+    "name": "Spending Tracker",
     "slug": "expense-tracker",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/expense-tracker.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.alamin.expensetracker.app",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

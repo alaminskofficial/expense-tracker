@@ -70,6 +70,7 @@ const CreateIncome: React.FC = () => {
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Source</Text>
       <TextInput
         placeholder="Enter income source"
+        placeholderTextColor="#9ca3af" // explicit gray
         value={title}
         onChangeText={setTitle}
         style={tailwind`border border-gray-300 rounded-xl px-4 py-3 mb-4`}
@@ -79,6 +80,7 @@ const CreateIncome: React.FC = () => {
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Amount</Text>
       <TextInput
         placeholder="Enter amount"
+        placeholderTextColor="#9ca3af" // explicit gray
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
