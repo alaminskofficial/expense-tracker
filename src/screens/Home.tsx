@@ -45,9 +45,45 @@ const Home: React.FC<Props> = ({ navigation }) => {
         <Text style={tailwind`text-base text-gray-500 px-15`}>
           Start Tracking Your Expense Easily
         </Text>
-        <Button title="Monthly" onPress={() => setTimeFilter("monthly")} />
+        
+        {/* Filter Toggle */}
+        <View style={tailwind`bg-gray-200 rounded-full p-1 flex-row`}>
+          {/* Monthly */}
+          <TouchableOpacity
+            onPress={() => setTimeFilter("monthly")}
+            style={tailwind.style(
+              "flex-1 py-2 rounded-full items-center",
+              timeFilter === "monthly" ? "bg-black" : ""
+            )}
+          >
+            <Text
+              style={tailwind.style(
+                "font-semibold",
+                timeFilter === "monthly" ? "text-white" : "text-gray-600"
+              )}
+            >
+              Monthly
+            </Text>
+          </TouchableOpacity>
 
-        <Button title="Yearly" onPress={() => setTimeFilter("yearly")} />
+          {/* Yearly */}
+          <TouchableOpacity
+            onPress={() => setTimeFilter("yearly")}
+            style={tailwind.style(
+              "flex-1 py-2 rounded-full items-center",
+              timeFilter === "yearly" ? "bg-black" : ""
+            )}
+          >
+            <Text
+              style={tailwind.style(
+                "font-semibold",
+                timeFilter === "yearly" ? "text-white" : "text-gray-600"
+              )}
+            >
+              Yearly
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={tailwind`px-4`}>
