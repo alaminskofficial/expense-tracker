@@ -4,7 +4,7 @@ import Home from "../screens/Home";
 import Insights from "../screens/Insights";
 import CreateExpense from "../screens/CreateExpense";
 import CreateIncome from "../screens/CreateIncome";
-import Profile from "../screens/Profile";
+import Transactions from "../screens/Transactions";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,7 +26,7 @@ export default function AppNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Transactions" component={Transactions} />
     </Stack.Navigator>
     //inside stack screens, we have tab screens
   );

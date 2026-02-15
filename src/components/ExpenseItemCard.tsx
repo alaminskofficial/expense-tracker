@@ -13,7 +13,7 @@ const ExpenseItemCard: React.FC<Props> = ({ item }) => {
   const category = getCategoryConfig(item.category);
 
   return (
-    <View style={tailwind`mx-5 my-2`}>
+    <View style={tailwind`mx-5 my-1`}>
       <View style={tailwind`bg-white p-4 rounded-2xl shadow flex-row justify-between`}>
         {/* Left */}
         <View style={tailwind`flex-row flex-1 items-center`}>

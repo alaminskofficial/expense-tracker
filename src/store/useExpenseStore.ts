@@ -20,6 +20,11 @@ type ExpenseState = {
     expense: number;
     balance: number;
   };
+  getCategoryWiseExpense: () => {
+    category: string;
+    total: number;
+  }[];
+  
 };
 
 export const useExpenseStore = create<ExpenseState>()(
@@ -46,8 +51,7 @@ export const useExpenseStore = create<ExpenseState>()(
       getDailyTotal: (date) => {
         const selectedDate = date.toDateString();
         return get()
-          .expenses
-          .filter(
+          .expenses.filter(
             (e) => new Date(e.date).toDateString() === selectedDate
           )
           .reduce((sum, e) => sum + e.amount, 0);
@@ -59,8 +63,7 @@ export const useExpenseStore = create<ExpenseState>()(
         firstDayOfWeek.setDate(now.getDate() - now.getDay());
 
         return get()
-          .expenses
-          .filter((e) => new Date(e.date) >= firstDayOfWeek)
+          .expenses.filter((e) => new Date(e.date) >= firstDayOfWeek)
           .reduce((sum, e) => sum + e.amount, 0);
       },
 
@@ -70,8 +73,7 @@ export const useExpenseStore = create<ExpenseState>()(
         const year = now.getFullYear();
 
         return get()
-          .expenses
-          .filter((e) => {
+          .expenses.filter((e) => {
             const d = new Date(e.date);
             return d.getMonth() === month && d.getFullYear() === year;
           })
@@ -82,10 +84,7 @@ export const useExpenseStore = create<ExpenseState>()(
         const year = new Date().getFullYear();
 
         return get()
-          .expenses
-          .filter(
-            (e) => new Date(e.date).getFullYear() === year
-          )
+          .expenses.filter((e) => new Date(e.date).getFullYear() === year)
           .reduce((sum, e) => sum + e.amount, 0);
       },
 
@@ -106,14 +105,47 @@ export const useExpenseStore = create<ExpenseState>()(
           balance: income - expense,
         };
       },
+      getCategoryWiseExpense: () => {
+        const expenses = get().expenses;
+      
+        const categoryMap: Record<string, number> = {};
+      
+        expenses.forEach((e) => {
+          const category = e.category;
+      
+          if (!categoryMap[category]) {
+            categoryMap[category] = 0;
+          }
+      
+          // Add amount directly (+ for income, - for expense)
+          categoryMap[category] += e.amount;
+        });
+      
+        // Convert to array
+        return Object.keys(categoryMap).map((category) => ({
+          category,
+          total: categoryMap[category], // can be + or -
+        }));
+      },
+      
     }),
     {
       name: "expense-storage",
       storage: createJSONStorage(() => AsyncStorage),
 
-      // Save only when non-empty
-      partialize: (state) =>
-        state.expenses.length > 0 ? { expenses: state.expenses } : {},
+      // Save only when expenses exist
+      partialize: (state) => {
+        if (!state.expenses || state.expenses.length === 0) {
+          return {}; // nothing saved
+        }
+        return { expenses: state.expenses };
+      },
+
+      // Safety for future changes
+      migrate: (persistedState: any, version) => {
+        if (!persistedState) return { expenses: [] };
+        return persistedState;
+      },
     }
   )
 );

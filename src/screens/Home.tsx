@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, View, StyleSheet, Button, FlatList } from "react-native";
+import { Text, View, StyleSheet, FlatList , TouchableOpacity } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/types";
 import tailwind from "twrnc";
 import EmptyList from "../components/EmptyList";
-import ExpenseItemCard from "../components/ExpenseItemCard";
+import CategorySummaryCard from "../components/CategorySummaryCard";
 import { useExpenseStore } from "../store/useExpenseStore";
 
 type HomeNavigationProp = NativeStackNavigationProp<
@@ -18,6 +18,10 @@ type Props = {
 
 const Home: React.FC<Props> = ({ navigation }) => {
   const expenses = useExpenseStore((state) => state.expenses);
+  const getCategoryExpenses = useExpenseStore(
+    (state) => state.getCategoryWiseExpense
+  );
+  const categoryExpenses = getCategoryExpenses();
   const getSummary = useExpenseStore((state) => state.getIncomeExpenseSummary);
 
   const summary = getSummary();
@@ -37,17 +41,17 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
       <View style={tailwind`px-4`}>
         <View style={tailwind`bg-black rounded-3xl p-4`}>
-        <View style={tailwind`items-center`}>
-          {/* Balance */}
-          <Text style={tailwind`text-gray-400 text-sm`}>Total Balance</Text>
-          <Text
-            style={tailwind.style(
-              "text-3xl font-bold mt-1",
-              isPositive ? "text-green-400" : "text-red-400"
-            )}
-          >
-            ₹ {balance}
-          </Text>
+          <View style={tailwind`items-center`}>
+            {/* Balance */}
+            <Text style={tailwind`text-gray-400 text-sm`}>Total Balance</Text>
+            <Text
+              style={tailwind.style(
+                "text-3xl font-bold mt-1",
+                isPositive ? "text-green-400" : "text-red-400"
+              )}
+            >
+              ₹ {balance}
+            </Text>
           </View>
 
           {/* Divider */}
@@ -70,14 +74,31 @@ const Home: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
       </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Transactions")}
+        style={tailwind`mx-4 mt-2 bg-white rounded-2xl p-4 flex-row items-center justify-between shadow`}
+      >
+        <View>
+          <Text style={tailwind`text-base font-bold text-black`}>
+            View Transactions
+          </Text>
+          <Text style={tailwind`text-xs text-gray-500`}>
+            See all income & expenses
+          </Text>
+        </View>
+
+        <Text style={tailwind`text-xl text-gray-400`}>›</Text>
+      </TouchableOpacity>
+
       <FlatList
-        data={expenses}
-        renderItem={({ item }) => <ExpenseItemCard item={item} />}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={tailwind`pb-20`}
+        data={categoryExpenses}
+        renderItem={({ item }) => (
+          <CategorySummaryCard category={item.category} total={item.total} />
+        )}
+        keyExtractor={(item) => item.category}
+        contentContainerStyle={tailwind`pb-10`}
         ListEmptyComponent={<EmptyList />}
       />
-      {/* <Button title="Profile" onPress={() => navigation.navigate("Profile")} /> */}
     </View>
   );
 };
