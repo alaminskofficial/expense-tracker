@@ -69,7 +69,7 @@ const CreateExpense: React.FC = () => {
       {/* Title */}
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Title</Text>
       <TextInput
-        placeholder="What wast it for?"
+        placeholder="What was it for?"
         placeholderTextColor="#9ca3af" // explicit gray
         value={title}
         onChangeText={setTitle}

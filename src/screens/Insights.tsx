@@ -22,7 +22,7 @@ const Insights: React.FC = () => {
     .map((c, index) => ({
       name: c.category,
       population: c.total,
-      color: getCategoryConfig(c.category).bg,
+      color: getCategoryConfig(c.category).text,
       legendFontColor: "#333",
       legendFontSize: 12,
     }));
@@ -32,7 +32,7 @@ const Insights: React.FC = () => {
     .map((c, index) => ({
       name: c.category,
       population: Math.abs(c.total),
-      color: getCategoryConfig(c.category).bg,
+      color: getCategoryConfig(c.category).text,
       legendFontColor: "#333",
       legendFontSize: 12,
     }));

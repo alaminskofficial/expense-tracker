@@ -27,9 +27,12 @@ const Transactions: React.FC = () => {
 
   const totalIncome = summary.income.toFixed(2);
   const totalExpense = summary.expense.toFixed(2);
-  const sortedExpenses = [...expenses].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  const sortedExpenses = [...expenses].sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateB - dateA; // descending: recent first
+  });
+  
 
   return (
     <View style={tailwind`flex-1 bg-gray-50`}>
