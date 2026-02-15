@@ -63,14 +63,14 @@ const Insights: React.FC = () => {
           <View>
             <Text style={tailwind`text-gray-500 text-sm`}>Income</Text>
             <Text style={tailwind`text-green-600 text-xl font-bold`}>
-              ₹ {summary.income}
+              ₹ {summary.income.toFixed(2)}
             </Text>
           </View>
 
           <View>
             <Text style={tailwind`text-gray-500 text-sm`}>Expense</Text>
             <Text style={tailwind`text-red-500 text-xl font-bold`}>
-              ₹ {summary.expense}
+              ₹ {summary.expense.toFixed(2)}
             </Text>
           </View>
 
@@ -82,7 +82,7 @@ const Insights: React.FC = () => {
                 summary.balance >= 0 ? "text-green-600" : "text-red-500"
               )}
             >
-              ₹ {summary.balance}
+              ₹ {summary.balance.toFixed(2)}
             </Text>
           </View>
         </View>
