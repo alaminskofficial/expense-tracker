@@ -45,8 +45,8 @@ export const categoryConfig: Record<string, CategoryConfig> = {
   },
   rent: {
     icon: "🏠",
-    bg: "#DCFCE7",
-    text: "#15803D",
+    bg: "#FFF7ED",
+    text: "#C2410C",
     type: "expense",
   },
   utilities: {

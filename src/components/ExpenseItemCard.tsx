@@ -59,7 +59,7 @@ const ExpenseItemCard: React.FC<Props> = ({ item }) => {
           </Text>
 
           <Text style={tailwind`text-xs text-gray-500 mt-1`}>
-            {item.date}
+            {new Date(item.date).toLocaleDateString()}
           </Text>
         </View>
       </View>

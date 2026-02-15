@@ -5,7 +5,7 @@ import { RootStackParamList } from "../navigation/types";
 import tailwind from "twrnc";
 import EmptyList from "../components/EmptyList";
 import ExpenseItemCard from "../components/ExpenseItemCard";
-import { Expense } from "../types/expense";
+import { useExpenseStore } from "../store/useExpenseStore";
 
 type HomeNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -17,84 +17,58 @@ type Props = {
 };
 
 const Home: React.FC<Props> = ({ navigation }) => {
-  const expenses: Expense[] = [
-    {
-      id: "1",
-      title: "Groceries",
-      category: "Food",
-      amount: -250,
-      date: "2026-02-14",
-    },
-    {
-      id: "2",
-      title: "Petrol",
-      category: "Transport",
-      amount: -100,
-      date: "2026-02-13",
-    },
-    {
-      id: "3",
-      title: "Shopping",
-      category: "Shopping",
-      amount: -1250,
-      date: "2026-02-14",
-    },
-    {
-      id: "4",
-      title: "Salary",
-      category: "Salary",
-      amount: 5000,
-      date: "2026-02-10",
-    },
-    {
-        id: "5",
-        title: "Electricity Bill",
-        category: "Utilities",
-        amount: -300,
-        date: "2026-02-12",
-    },
-    {
-        id: "6",
-        title: "Dinner Out",
-        category: "Food",
-        amount: -150,
-        date: "2026-02-11",
-    },
-    {
-        id: "7",
-        title: "Gym Membership",
-        category: "Health",
-        amount: -200,
-        date: "2026-02-09",
-    },
-    {
-        id: "8",
-        title: "Freelance Project",
-        category: "Salary",
-        amount: 1200,
-        date: "2026-02-08",
-    }
-  ];
-  
-  const totalExpense = Math.abs(expenses.reduce((total, expense) => total + (expense.amount < 0 ? expense.amount : 0), 0)).toFixed(2);
-  
+  const expenses = useExpenseStore((state) => state.expenses);
+  const getSummary = useExpenseStore((state) => state.getIncomeExpenseSummary);
+
+  const summary = getSummary();
+
+  const totalIncome = summary.income.toFixed(2);
+  const totalExpense = summary.expense.toFixed(2);
+  const balance = summary.balance.toFixed(2);
+  const isPositive = summary.balance >= 0;
+
   return (
     <View style={tailwind`flex-1`}>
-      <View style={tailwind`px-5 pt-5 pb-3`}>
-        <Text style={tailwind`text-4xl font-bold text-black`}>
-          Hello 👋{" "}
-        </Text>
-        <Text style={tailwind`text-base text-gray-500 mt-1`}>
+      <View style={tailwind`px-5 pt-3 pb-3`}>
+        <Text style={tailwind`text-base text-gray-500 px-15`}>
           Start Tracking Your Expense Easily
         </Text>
       </View>
-      <View
-        style={tailwind`bg-black rounded-3xl p-6 my-5 mx-5 items-center shadow-lg`}
-      >
-        <Text style={tailwind`text-white text-lg font-bold mb-2`}>
-          Total Expense
-        </Text>
-        <Text style={tailwind`text-white text-3xl font-bold`}>${totalExpense}</Text>
+
+      <View style={tailwind`px-4`}>
+        <View style={tailwind`bg-black rounded-3xl p-4`}>
+        <View style={tailwind`items-center`}>
+          {/* Balance */}
+          <Text style={tailwind`text-gray-400 text-sm`}>Total Balance</Text>
+          <Text
+            style={tailwind.style(
+              "text-3xl font-bold mt-1",
+              isPositive ? "text-green-400" : "text-red-400"
+            )}
+          >
+            ₹ {balance}
+          </Text>
+          </View>
+
+          {/* Divider */}
+          <View style={tailwind`flex-row justify-between mx-6 mt-2`}>
+            {/* Income */}
+            <View style={tailwind`flex-1`}>
+              <Text style={tailwind`text-gray-400 text-xs`}>Income</Text>
+              <Text style={tailwind`text-green-400 text-lg font-bold`}>
+                +₹ {totalIncome}
+              </Text>
+            </View>
+
+            {/* Expense */}
+            <View style={tailwind`flex-1 items-end`}>
+              <Text style={tailwind`text-gray-400 text-xs`}>Expense</Text>
+              <Text style={tailwind`text-red-400 text-lg font-bold`}>
+                -₹ {totalExpense}
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
       <FlatList
         data={expenses}

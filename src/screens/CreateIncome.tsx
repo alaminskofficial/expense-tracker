@@ -11,6 +11,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import tailwind from "twrnc";
 import { Expense } from "../types/expense";
 import { incomeCategories } from "../utils/categoryHelper";
+import { useExpenseStore } from "../store/useExpenseStore";
 
 const CreateIncome: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -20,6 +21,8 @@ const CreateIncome: React.FC = () => {
   // Date states
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
+
+  const addIncome = useExpenseStore((state) => state.addExpense);
 
   const handleDateChange = (_: any, selectedDate?: Date) => {
     setShowPicker(false);
@@ -43,6 +46,7 @@ const CreateIncome: React.FC = () => {
     };
 
     console.log("New Income:", newIncome);
+    addIncome(newIncome);
     Alert.alert("Success", "Income Added");
 
     setTitle("");

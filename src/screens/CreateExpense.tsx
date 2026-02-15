@@ -4,6 +4,8 @@ import tailwind from "twrnc";
 import { Expense } from "../types/expense";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { expenseCategories } from "../utils/categoryHelper";
+import { useExpenseStore } from "../store/useExpenseStore";
+
 
 
 const categories = expenseCategories;
@@ -14,6 +16,7 @@ const CreateExpense: React.FC = () => {
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
+  const addExpense = useExpenseStore((state) => state.addExpense);
   
   const onChangeDate = (_: any, selectedDate?: Date) => {
     setShowPicker(false);
@@ -31,13 +34,13 @@ const CreateExpense: React.FC = () => {
     const newExpense: Expense = {
       id: `${Date.now()}-${Math.random()}`,
       title,
-      amount: Number(amount),
+      amount: Number(- amount),
       category,
       date : date.toISOString(),
     };
 
     console.log("New Expense:", newExpense);
-
+    addExpense(newExpense);
     Alert.alert("Success", "Expense Added");
 
     // Reset form
