@@ -41,8 +41,8 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={tailwind`flex-1`}>
-      <View style={tailwind`px-5 pt-3 pb-3`}>
-        <Text style={tailwind`text-base text-gray-500 px-15`}>
+      <View style={tailwind`px-5 pt-3 pb-3 item-center`}>
+        <Text style={tailwind`pb-1 text-base text-gray-500 text-center`}>
           Start Tracking Your Expense Easily
         </Text>
         

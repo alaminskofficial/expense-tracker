@@ -9,11 +9,14 @@ import CreateIncome from "../screens/CreateIncome";
 import Transactions from "../screens/Transactions";
 import EditTransaction from "../screens/EditTransaction";
 import { RootStackParamList } from "./types";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function BottomTabs() {
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -21,9 +24,13 @@ function BottomTabs() {
         tabBarActiveTintColor: "#16a34a",   // green
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          height: 90,
-          paddingBottom: 16,
+          height: 60 + insets.bottom,   // dynamic height
+          paddingBottom: insets.bottom, // dynamic padding
         },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginBottom: 4,
+        },        
         tabBarIcon: ({ color, size, focused }) => {
           let iconName: any;
 

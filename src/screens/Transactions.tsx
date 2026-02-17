@@ -39,7 +39,7 @@ const Transactions: React.FC = () => {
       {/* Top Summary Card */}
       <View style={tailwind`px-5 pt-4`}>
         <View style={tailwind`bg-black rounded-3xl p-5`}>
-          <Text style={tailwind`text-white text-lg font-bold mb-3`}>
+          <Text style={tailwind`text-white text-lg font-bold mb-3 text-center`}>
             Transactions Summary
           </Text>
 

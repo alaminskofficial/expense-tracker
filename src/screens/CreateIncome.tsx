@@ -64,7 +64,7 @@ const CreateIncome: React.FC = () => {
 
   return (
     <View style={tailwind`flex-1 bg-white px-5 pt-6`}>
-      <Text style={tailwind`text-2xl font-bold mb-6`}>Add Income</Text>
+      <Text style={tailwind`text-2xl font-bold mb-6 text-center`}>Add Income</Text>
 
       {/* Title */}
       <Text style={tailwind`text-sm text-gray-600 mb-1`}>Source</Text>

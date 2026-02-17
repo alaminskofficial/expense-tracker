@@ -48,16 +48,16 @@ const Insights: React.FC = () => {
   return (
     <ScrollView style={tailwind`flex-1 bg-gray-100`}>
       {/* Header */}
-      <View style={tailwind`px-5 pt-6 pb-4`}>
-        <Text style={tailwind`text-2xl font-bold`}>Insights</Text>
-        <Text style={tailwind`text-gray-500 mt-1`}>
+      <View style={tailwind`px-5 pt-6 pb-4 item-center`}>
+        <Text style={tailwind`text-2xl font-bold text-center`}>Insights</Text>
+        <Text style={tailwind`text-gray-500 mt-1 text-center`}>
           Showing {timeFilter} data
         </Text>
       </View>
 
       {/* Summary Card */}
       <View style={tailwind`bg-white mx-4 rounded-2xl p-5 shadow mb-4`}>
-        <Text style={tailwind`text-lg font-semibold mb-4`}>Summary</Text>
+        <Text style={tailwind`text-lg font-semibold mb-4`}> I/E Summary</Text>
 
         <View style={tailwind`flex-row justify-between`}>
           <View>
