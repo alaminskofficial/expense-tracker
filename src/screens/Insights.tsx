@@ -48,7 +48,7 @@ const Insights: React.FC = () => {
   return (
     <ScrollView style={tailwind`flex-1 bg-gray-100`}>
       {/* Header */}
-      <View style={tailwind`px-5 pt-6 pb-4 item-center`}>
+      <View style={tailwind`px-5 pt-3 pb-4 items-center`}>
         <Text style={tailwind`text-2xl font-bold text-center`}>Insights</Text>
         <Text style={tailwind`text-gray-500 mt-1 text-center`}>
           Showing {timeFilter} data
